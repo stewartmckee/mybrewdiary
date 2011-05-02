@@ -1,0 +1,19 @@
+#brewings-index
+  %h1 Current brewings
+  - if @current_brewings.empty?
+    = "You don't have any current brewings" 
+  - @current_brewings.each do |brewing|
+    = "#{brewing.ferment_started_on}"
+    = " - "
+    = link_to brewing.name, brewing
+  
+  
+  %h1 Past brewings
+  - if @past_brewings.empty?
+    = "You don't have any past brewings" 
+  - @past_brewings.each do |brewing|
+    = link_to brewing.name, brewing
+    = " - Started on #{brewing.ferment_started_on}"
+  
+  %h2
+    = link_to 'start a new brewing', new_brewing_path

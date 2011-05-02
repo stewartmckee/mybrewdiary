@@ -1,0 +1,29 @@
+#slideshow .border {
+	background-image: url(/images/slideshow.gif);
+}
+
+#slideshow .previous, #slideshow .next {
+	background-image: url(/images/slideshow.gif);
+}
+
+.list1 .permalink, .list1 .author {
+	display: inline;
+	margin-left: 0px;
+	padding-top: 0px;
+}
+
+.list2 li {
+	padding-top: 0px;
+}
+
+.list2 img {
+	margin-top: 10px;
+}
+
+.image-style1 .thumbnails {
+	background: url(/images/homepage_10.gif) no-repeat left top;
+}
+
+.image-style2 .thumbnails {
+	background: url(/images/homepage_08.gif) no-repeat left top;
+}

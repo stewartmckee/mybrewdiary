@@ -1,0 +1,121 @@
+!!!
+%html{:xmlns => "http://www.w3.org/1999/xhtml"}
+  %head
+    %meta{:content => "text/html; charset=utf-8", "http-equiv" => "Content-Type"}/
+    %title My Brew Diary
+    %meta{:content => "", :name => "keywords"}/
+    %meta{:content => "", :name => "description"}/
+    = stylesheet_link_tag :all
+    /[if IE 6] <link href="/stylesheets/ie6fix.css" rel="stylesheet" type="text/css" />
+    /[if IE 7] <link href="/stylesheets/ie6fix.css" rel="stylesheet" type="text/css" />
+    = javascript_include_tag :defaults
+    = csrf_meta_tag
+
+  %body{:class => params[:controller] == "welcome" ? "home" : ""}
+    #header-bg
+      #header.container
+        #logo
+          %h1
+            %a{:href => "#"} My Brew Diary
+          %p track your homebrew
+        #search
+          %form{:action => "#", :method => "get"}
+            %fieldset
+              %input.input-text{:name => "q", :type => "text", :value => ""}/
+              %input#imageField.input-image{:name => "imageField", :src => "/images/homepage_03.jpg", :type => "image"}/
+    #menu-bg
+      #menu.container
+        %ul
+          %li{:class => params[:controller] == "welcome" ? "active" : ""}
+            = link_to "Homepage", root_path, :accesskey => "1", :title => "Homepage"
+          - if user_signed_in?
+            %li{:class => params[:controller] == "brewings" ? "active" : ""}
+              = link_to "My Brewings", brewings_path, :accesskey => "2", :title => "My Brewings"
+          - if user_signed_in? and current_user.admin?
+            %li
+              = link_to "Homebrew Guide", homebrew_guide_path, :accesskey => "3", :title => "Guide to homebrew"
+          %li
+            = link_to "The Blog", blog_posts_path, :accesskey => "4", :title => "Read our blog"
+          - if user_signed_in? and current_user.admin?
+            %li
+              = link_to "About Us", about_us_path, :accesskey => "5", :title => "What we're about"
+            %li
+              = link_to "Contact Us", contact_us_path, :accesskey => "6", :title => "How to get in touch"
+          - if user_signed_in?
+            %li
+              = link_to "Log out", destroy_user_session_path, :accesskey => "7", :title => "Sign out of your user account"
+          - else
+            %li
+              = link_to "Log In", new_user_session_path, :accesskey => "7", :title => "Log in using your email and password"
+            %li
+              = link_to "Sign Up", new_user_registration_path, :accesskey => "8", :title => "Create a new account"
+    #page-bg
+      #page-bgtop
+        - if params[:controller] == "welcome"
+          #box1.box-style1.container
+            %h1 Welcome.
+            %p Track your homebrew, get estimates and notifications for each stage, afterwards rate the results.
+
+          #slideshow.container
+            .viewer
+              .reel
+                .slide
+                  %img{:alt => "", :height => "192", :src => "/images/mybrewdiary_cta1.jpg", :width => "860"}/
+                .slide
+                  %img{:alt => "", :height => "192", :src => "/images/mybrewdiary_cta2.jpg", :width => "860"}/
+            .border
+            %a.previous{:href => "#"} Previous
+            %a.next{:href => "#"} Next
+        #page.container
+          %div{:id => @narrow.include?(params[:controller].to_sym) ? "content" : "wide-content"}
+            %div{:class => @narrow.include?(params[:controller].to_sym) ? "box-style2" : "box-style5"}
+              = flash_notice
+              = yield
+
+          = content_for :sidebar          
+    #footer-box-bg
+      #footer-box.container
+        .col1
+          %h2.title
+            %b Beginners
+            guide
+          .entry
+            .image-style1
+              %span
+                %img{:alt => "", :height => "75", :src => "/images/bottles.jpg", :width => "257"}/
+              .thumbnails
+            %p
+              %strong This guide to homebrew
+              will help you know what to do and what you need to start brewing yourself.
+            %p
+              = link_to "Beginners Guide...", blog_post_path("2-Beginners-Guide")
+        .col2
+          %h2.title
+            %b So
+            whats this site about?
+          .entry
+            .image-style1
+              %span
+                %img{:alt => "", :height => "75", :src => "/images/taps.jpg", :width => "257"}/
+              .thumbnails
+            %p
+              %strong 
+              How this site came about and how you can use it.
+            %p
+              = link_to "Whats this site about?...", blog_post_path("3-whats-this-site-all-about-")
+        .col3
+          %h2.title
+            %b Homebrew
+            on twitter
+          .entry
+            %ul.list2
+              - @tweets[0..2].each do |tweet|
+                %li{:class => @tweets.index(tweet) == 0 ? "first" : ""}
+                  = image_tag tweet["profile_image_url"], :height => "48", :alt => "Twitter user #{tweet["from_user"]}", :height => "48", :width => "48", :class => "alignleft"
+                  = link_to "@#{tweet["from_user"]}", "http://twitter.com/#{tweet["from_user"]}" 
+                  = linkify_tweet(tweet["text"]).html_safe
+                  %small= "#{time_ago_in_words(DateTime.parse(tweet["created_at"]))} ago"
+            %p
+              = link_to "More tweets ...", "http://twitter.com/#!/search/%23homebrew%20beer"
+    #footer.container
+      %p copyright (c) 2010 mysitename.com. all rights reserved.

@@ -1,0 +1,65 @@
+%p#notice= notice
+
+.new-reading
+  = link_to "add a new reading", new_reading_path(:brewing_id => @brewing.id)
+%h1= @brewing.name
+
+#dashboard
+  #dashboard-top
+    .date-box#started
+      .box-title Started
+      .box-value
+        = date_in_words(@brewing.ferment_started_on)
+    .date-box
+      .box-title Bottled
+      .box-value
+        = date_in_words(@brewing.bottled_on)
+    .date-box
+      .box-title Ready
+      .box-value
+        = date_in_words(@brewing.ready_on)
+    .date-box
+      .box-title Quantity
+      .box-value
+        = "#{@brewing.quantity} Litres (#{number_with_precision(@brewing.quantity * 1.75975398639, :precision => 0)} Pints)"
+  
+    .clear 
+  #dashboard-bottom
+  
+    %h3 Notes:
+    = @brewing.notes
+    %h3 Kit name:
+    = @brewing.kit_name
+  
+  
+%h2 Charts
+.graph
+  = high_chart("tgraph", @t_graph)
+.graph
+  = high_chart("sggraph", @sg_graph)
+
+.clear
+%h2 Readings
+.readings  
+  %table
+    %tr
+      %th Date
+      %th Temperature (C)
+      %th Specific gravity
+      %th
+      %th
+      %th
+  
+    - @brewing.readings.each do |reading|
+      %tr
+        %td= reading.taken_on.strftime("%d %B %Y  %H:%M")
+        %td= reading.temperature
+        %td= reading.specific_gravity
+        %td= link_to 'Edit', edit_reading_path(reading)
+        %td= link_to 'Delete', reading, :confirm => 'Are you sure?', :method => :delete  
+
+
+  
+= link_to 'Edit', edit_brewing_path(@brewing)
+\|
+= link_to 'Back', brewings_path

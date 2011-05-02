@@ -1,0 +1,23 @@
+%h1 Listing readings
+
+%table
+  %tr
+    %th Brewing
+    %th Temperature
+    %th Specific gravity
+    %th
+    %th
+    %th
+
+  - @readings.each do |reading|
+    %tr
+      %td= link_to reading.brewing.name, reading.brewing
+      %td= reading.temperature
+      %td= reading.specific_gravity
+      %td= link_to 'Show', reading
+      %td= link_to 'Edit', edit_reading_path(reading)
+      %td= link_to 'Destroy', reading, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Reading', new_reading_path

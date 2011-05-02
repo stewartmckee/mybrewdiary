@@ -1,0 +1,14 @@
+= simple_form_for @reading do |f|
+  -if @reading.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@reading.errors.count, "error")} prohibited this reading from being saved:"
+      %ul
+        - @reading.errors.full_messages.each do |msg|
+          %li= msg
+
+  = f.association :brewing
+  = f.input :taken_on
+  = f.input :temperature, :as => :string
+  = f.input :specific_gravity
+  .clear
+  = f.button :submit

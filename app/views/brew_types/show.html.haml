@@ -1,0 +1,9 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @brew_type.name
+
+= link_to 'Edit', edit_brew_type_path(@brew_type)
+\|
+= link_to 'Back', brew_types_path

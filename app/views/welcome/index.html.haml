@@ -1,2 +1,19 @@
-%h1 Welcome#index
-%p Find me in app/views/welcome/index.html.haml
+%h1.title
+  %b How
+  it works
+.entry
+  .image-style2
+    %span
+      %img{:alt => "", :height => "145", :src => "images/hydrometer-measure.jpg", :width => "145"}/
+    .thumbnails
+  %p
+    %strong Track your homebrew
+    Tracking each of the readings of temperature and specific gravity is important in homebrew to make sure that the result is as good as it can be.  With mybrewdiary, you can now track and graph the process.  Store brewings for future scrutiny and get estimates and notifications for when stages should be complete.
+  %p
+    %a.link1{:href => "#"} Read full article...
+
+- content_for :sidebar do
+  #sidebar
+    .box-style3
+      = render :partial => "shared/blog"
+  

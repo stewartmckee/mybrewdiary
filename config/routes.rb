@@ -1,6 +1,14 @@
 BrewingDiary::Application.routes.draw do
   
 
+  get "/homebrew_guide" => "homebrew_guide#index"
+  get "/contact_us" => "contact_us#index"
+  get "/about_us" => "about_us#index"
+
+  resources :brew_types
+
+  resources :readings
+  resources :brewings
   devise_for :users
 
   # The priority is based upon order of creation:

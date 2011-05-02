@@ -1,0 +1,18 @@
+= simple_form_for @brewing do |f|
+  -if @brewing.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@brewing.errors.count, "error")} prohibited this brewing from being saved:"
+      %ul
+        - @brewing.errors.full_messages.each do |msg|
+          %li= msg
+
+  = f.input :name
+  = f.input :ferment_started_on
+  = f.input :bottled_on
+  = f.input :ready_on
+  = f.input :quantity
+  = f.input :notes
+  = f.association :brew_type
+  = f.input :kit_name
+  .clear
+  = f.button :submit

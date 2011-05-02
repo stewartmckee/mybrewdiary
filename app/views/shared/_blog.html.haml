@@ -1,0 +1,18 @@
+%h2.title
+  %b blog
+  entries
+.entry
+  %ul.list1
+    - counter = 0
+    - BlogPost.published[0..2].each do |blog|
+      %li{:class => counter ==0 ? "first" : ""}
+        %span.date
+          %span.month= blog.published_at.strftime("%b")
+          %span.day= blog.published_at.day
+        = link_to blog.title, blog, :class => "permalink"
+        %br
+        %small.author
+          Posted by
+          = link_to blog.user.name, "#"
+
+
