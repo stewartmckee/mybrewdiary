@@ -10,7 +10,15 @@
     /[if IE 7] <link href="/stylesheets/ie6fix.css" rel="stylesheet" type="text/css" />
     = javascript_include_tag :defaults
     = csrf_meta_tag
-
+    :javascript
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-22900000-2']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
   %body{:class => params[:controller] == "welcome" ? "home" : ""}
     #header-bg
       #header.container
@@ -118,4 +126,4 @@
             %p
               = link_to "More tweets ...", "http://twitter.com/#!/search/%23homebrew%20beer"
     #footer.container
-      %p copyright (c) 2010 mysitename.com. all rights reserved.
+      %p copyright (c) 2011 mybrewdiary.com. all rights reserved.
