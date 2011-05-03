@@ -47,7 +47,7 @@ class ReadingsController < ApplicationController
     
     respond_to do |format|
       if @reading.save
-        format.html { redirect_to(@reading, :notice => 'Reading was successfully created.') }
+        format.html { redirect_to(@reading.brewing, :notice => 'Reading was successfully created.') }
         format.xml  { render :xml => @reading, :status => :created, :location => @reading }
       else
         format.html { render :action => "new" }
@@ -63,7 +63,7 @@ class ReadingsController < ApplicationController
 
     respond_to do |format|
       if @reading.update_attributes(params[:reading])
-        format.html { redirect_to(@reading, :notice => 'Reading was successfully updated.') }
+        format.html { redirect_to(@reading.brewing, :notice => 'Reading was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -76,10 +76,11 @@ class ReadingsController < ApplicationController
   # DELETE /readings/1.xml
   def destroy
     @reading = Reading.find(params[:id])
+    brewing = @reading.brewing
     @reading.destroy
 
     respond_to do |format|
-      format.html { redirect_to(readings_url) }
+      format.html { redirect_to(brewing) }
       format.xml  { head :ok }
     end
   end

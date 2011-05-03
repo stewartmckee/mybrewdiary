@@ -47,8 +47,8 @@
           - if user_signed_in? and current_user.admin?
             %li
               = link_to "About Us", about_us_path, :accesskey => "5", :title => "What we're about"
-            %li
-              = link_to "Contact Us", contact_us_path, :accesskey => "6", :title => "How to get in touch"
+          %li
+            = link_to "Contact Us", contact_us_path, :accesskey => "6", :title => "How to get in touch"
           - if user_signed_in?
             %li
               = link_to "Log out", destroy_user_session_path, :accesskey => "7", :title => "Sign out of your user account"
@@ -99,18 +99,17 @@
               = link_to "Beginners Guide...", blog_post_path("2-Beginners-Guide")
         .col2
           %h2.title
-            %b So
-            whats this site about?
+            %b Suggestions?
           .entry
             .image-style1
               %span
                 %img{:alt => "", :height => "75", :src => "/images/taps.jpg", :width => "257"}/
               .thumbnails
             %p
-              %strong 
-              How this site came about and how you can use it.
+              %strong If you have any suggestions 
+              on what we can do to improve this site, like adding a forum, sharing your data with others with the same kit?  You can contact us below.
             %p
-              = link_to "Whats this site about?...", blog_post_path("3-whats-this-site-all-about-")
+              = link_to "Contact Us...", contact_us_path
         .col3
           %h2.title
             %b Homebrew
