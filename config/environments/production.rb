@@ -38,7 +38,7 @@ BrewingDiary::Application.configure do
   # config.action_mailer.raise_delivery_errors = false
   config.action_dispatch.x_sendfile_header = "X-Sendfile"
   
-  config.action_mailer.default_url_options = { :host => 'sitecentralnow.com' }
+  config.action_mailer.default_url_options = { :host => 'mybrewdiary.com' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     :address              => "192.168.100.106",

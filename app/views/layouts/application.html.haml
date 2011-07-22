@@ -58,6 +58,8 @@
               = link_to "Free Sign Up", new_user_registration_path, :accesskey => "8", :title => "Create a new account"
     #page-bg
       #page-bgtop
+        #flash_notice
+          = flash_notice
         - if params[:controller] == "welcome"
           #box1.box-style1.container
             %h1 Welcome.
@@ -76,7 +78,6 @@
         #page.container
           %div{:id => @narrow.include?(params[:controller].to_sym) ? "content" : "wide-content"}
             %div{:class => @narrow.include?(params[:controller].to_sym) ? "box-style2" : "box-style5"}
-              = flash_notice
               = yield
 
           = content_for :sidebar          
