@@ -12,7 +12,7 @@
   = f.input :ready_on
   = f.input :quantity, :label => "Quantity (Litres)"
   = f.input :notes
-  = f.association :brew_type
+  = f.association :brew_type, :collection => BrewType.all(:order => "name"), :include_blank => false
   = f.input :kit_name
   .clear
   = f.button :submit
