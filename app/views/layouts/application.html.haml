@@ -39,9 +39,8 @@
           - if user_signed_in?
             %li{:class => params[:controller] == "brewings" ? "active" : ""}
               = link_to "My Brewings", brewings_path, :accesskey => "2", :title => "My Brewings"
-          - if user_signed_in? and current_user.admin?
-            %li
-              = link_to "Homebrew Guide", homebrew_guide_path, :accesskey => "3", :title => "Guide to homebrew"
+          %li
+            = link_to "Homebrew Guide", homebrew_guide_path, :accesskey => "3", :title => "Guide to homebrew"
           %li
             = link_to "The Blog", blog_posts_path, :accesskey => "4", :title => "Read our blog"
           - if user_signed_in? and current_user.admin?
@@ -56,7 +55,7 @@
             %li
               = link_to "Log In", new_user_session_path, :accesskey => "7", :title => "Log in using your email and password"
             %li
-              = link_to "Sign Up", new_user_registration_path, :accesskey => "8", :title => "Create a new account"
+              = link_to "Free Sign Up", new_user_registration_path, :accesskey => "8", :title => "Create a new account"
     #page-bg
       #page-bgtop
         - if params[:controller] == "welcome"
