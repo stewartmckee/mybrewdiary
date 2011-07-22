@@ -36,7 +36,14 @@ BrewingDiary::Application.configure do
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
-
+  config.action_dispatch.x_sendfile_header = "X-Sendfile"
+  
+  config.action_mailer.default_url_options = { :host => 'sitecentralnow.com' }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :address              => "192.168.100.106",
+    :port                 => 26,
+    :enable_starttls_auto => false  }
   # Enable threaded mode
   # config.threadsafe!
 
