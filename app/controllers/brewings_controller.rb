@@ -73,6 +73,7 @@ class BrewingsController < ApplicationController
   # POST /brewings.xml
   def create
     @brewing = Brewing.new(params[:brewing])
+    @brewing.user = current_user
 
     respond_to do |format|
       if @brewing.save
