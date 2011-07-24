@@ -16,9 +16,11 @@ class Brewing < ActiveRecord::Base
       change = (self.readings[0].specific_gravity - self.readings[1].specific_gravity) / ((self.readings[1].taken_on - self.readings[0].taken_on) / 60 / 60)
   
       hour = 0
-      while change > 0
+      safety_valve = 0
+      while change > 0 or safety_valve > 720
         hour += 1
         change = change - hourly_rate_of_change
+        safety_valve += 1
       end
       self.ferment_started_on + hour.hours
     else
