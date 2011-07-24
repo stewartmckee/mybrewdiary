@@ -11,7 +11,7 @@ class Brewing < ActiveRecord::Base
 
 
   def ready_on
-    if self.readings.count > 3
+    if self.readings.count > 2
       hourly_rate_of_change = rate
       change = (self.readings[0].specific_gravity - self.readings[1].specific_gravity) / ((self.readings[1].taken_on - self.readings[0].taken_on) / 60 / 60)
   
