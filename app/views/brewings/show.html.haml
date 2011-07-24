@@ -9,7 +9,7 @@
       .box-value
         = date_in_words(@brewing.ferment_started_on)
     .date-box
-      .box-title Bottled
+      .box-title #{@brewing.bottled_on > DateTime.now? ? "Bottle in" : "Bottled"}
       .box-value
         = date_in_words(@brewing.bottled_on)
     .date-box
