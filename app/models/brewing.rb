@@ -10,7 +10,7 @@ class Brewing < ActiveRecord::Base
   scope :for, lambda {|user| where("user_id = ?", user.id)}
 
 
-  def ready_on
+  def bottled_on
     if self.readings.count > 2
       hourly_rate_of_change = rate
       change = (self.readings[0].specific_gravity - self.readings[1].specific_gravity) / ((self.readings[1].taken_on - self.readings[0].taken_on) / 60 / 60)
