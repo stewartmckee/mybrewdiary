@@ -27,10 +27,10 @@ class BrewingsController < ApplicationController
       f.options[:chart][:backgroundColor] = "#1d1d1d"
       f.options[:title][:text] = "Temperature Readings"
       f.options[:legend][:enabled] = false
-      f.series(:name=>'Temperature', :data=>@brewing.readings.map{|r|r.temperature})
+      f.series(:name=>'Temperature', :data=>@brewing.readings.map{|r|[r.taken_on.to_i*1000, r.temperature]})
       f.y_axis(:title => {:text => "Temperature C"})
-      f.x_axis(:title => {:text => "Date Taken On"})
-      f.options[:x_axis][:categories] = @brewing.readings.map{|r| friendly_date(r.taken_on)}
+      f.x_axis(:type => "datetime", :title => {:text => "Date Taken On"}, :dateTimeLabelFormats => {:month => '%e %b', :year => '%b'})
+      #f.options[:x_axis][:categories] = @brewing.readings.map{|r| friendly_date(r.taken_on)}
   
     end
     @sg_graph = HighChart.new('specific_gravity') do |f|
@@ -39,9 +39,10 @@ class BrewingsController < ApplicationController
       f.options[:title][:text] = "Specific Gravity Readings"
       f.options[:legend][:enabled] = false
       f.y_axis(:title => {:text => "Specific Gravity"})
-      f.x_axis(:title => {:text => "Date Taken On"})
-      f.series(:name=>'Specific Gravity', :data=> @brewing.readings.map{|r|r.specific_gravity} )
-      f.options[:x_axis][:categories] = @brewing.readings.map{|r| friendly_date(r.taken_on)}
+      f.x_axis(:type => "datetime", :title => {:text => "Date Taken On"}, :dateTimeLabelFormats => {:month => '%e %b', :year => '%b'})
+      f.series(:name=>'Specific Gravity', :data=> @brewing.readings.map{|r| [r.taken_on.to_i*1000, r.specific_gravity]} )
+      #f.options[:x_axis][:categories] = @brewing.readings.map{|r| friendly_date(r.taken_on)}
+      
     end
 
     respond_to do |format|
