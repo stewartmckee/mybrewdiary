@@ -1,7 +1,28 @@
 .new-reading
   = link_to "add a new reading", new_reading_path(:brewing_id => @brewing.id)
-%h1= @brewing.name
+  - if @brewing.state == "PRIMARY"
+    %br
+    = link_to "bottled yet?", brewing_set_bottled_path(:brewing_id => @brewing.id)
+  - if @brewing.state == "SECONDARY"
+    %br
+    = link_to "ready yet?", brewing_set_ready_path(:brewing_id => @brewing.id)
+  %br
+  = link_to "edit this brewing", edit_brewing_path(@brewing)
 
+%h1= @brewing.name
+- unless @brewing.show_state.nil?
+  Currently #{@brewing.show_state}
+  
+- if @brewing.state == "READY"
+  %br
+  Give it a rating 
+  = ratings_for @brewing, :size => "medium"
+
+- if @brewing.state == "PRIMARY"
+  :css
+    .date-box {margin-left: 60px;}
+
+.clear
 #dashboard
   #dashboard-top
     .date-box#started
@@ -12,10 +33,14 @@
       .box-title #{@brewing.bottled_on > DateTime.now ? "Bottle" : "Bottled"}
       .box-value
         = date_in_words(@brewing.bottled_on)
-    .date-box
-      .box-title Estimated
-      .box-value
-        = date_in_words(@brewing.estimate_bottled_on)
+    - if @brewing.state == "PRIMARY"
+      .date-box
+        .box-title Estimated
+        .box-value
+          - if @brewing.estimate_bottled_on.nil?
+            No data yet
+          - else        
+            = date_in_words(@brewing.estimate_bottled_on)
     .date-box
       .box-title Ready
       .box-value

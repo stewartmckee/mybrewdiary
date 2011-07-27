@@ -8,6 +8,10 @@ class ApplicationController < ActionController::Base
     @narrow = [:welcome, :homebrew_guide, :about_us, :contact_us, :blog_posts]
   end
 
+  PRIMARY_FERMENTATION = "PRIMARY"
+  SECONDARY_FERMENTATION = "SECONDARY"
+  READY = "READY"
+
   def get_tweets
     unless Rails.cache.exist?('welcome#twitter')
       # Initialize a Twitter search

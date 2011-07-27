@@ -20,6 +20,11 @@ class BrewingsController < ApplicationController
   # GET /brewings/1.xml
   def show
     @brewing = Brewing.find(params[:id])
+
+    if @brewing.ready_on < DateTime.now
+      @brewing.update_attributes(:state => "READY")
+    end    
+    
     redirect_to "/" unless @brewing.user.id == current_user.id or current_user.admin?
 
     @t_graph = HighChart.new('temperature') do |f|
@@ -75,6 +80,7 @@ class BrewingsController < ApplicationController
   def create
     @brewing = Brewing.new(params[:brewing])
     @brewing.user = current_user
+    @brewing.state = "PRIMARY"
 
     respond_to do |format|
       if @brewing.save
@@ -102,6 +108,34 @@ class BrewingsController < ApplicationController
       end
     end
   end
+  
+  def set_bottled
+    @brewing = Brewing.find(params[:brewing_id])
+    @brewing.state = "SECONDARY"
+    @brewing.bottled_on = DateTime.now
+    @brewing.ready_on = DateTime.now + 4.weeks
+    @brewing.save
+    
+    redirect_to @brewing
+  end
+
+  def set_ready
+    @brewing = Brewing.find(params[:brewing_id])
+    @brewing.state = "READY"
+    @brewing.ready_on = DateTime.now
+    @brewing.save
+    
+    redirect_to @brewing
+  end
+  
+  def rate
+    @brewing = Brewing.find(params[:id])
+    @brewing.rate(params[:stars], current_user, params[:dimension])
+    average = @brewing.rate_average(true, params[:dimension])
+    width = (average / @brewing.class.max_stars.to_f) * 100
+    render :json => {:id => @brewing.wrapper_dom_id(params), :average => average, :width => width}
+  end
+
 
   # DELETE /brewings/1
   # DELETE /brewings/1.xml

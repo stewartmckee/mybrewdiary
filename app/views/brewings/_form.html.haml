@@ -7,6 +7,8 @@
           %li= msg
 
   = f.input :name
+  - if current_user.admin? 
+    = f.input :state
   = f.input :ferment_started_on
   = f.input :bottled_on
   = f.input :ready_on

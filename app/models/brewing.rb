@@ -1,5 +1,7 @@
 class Brewing < ActiveRecord::Base
 
+  ajaxful_rateable :stars => 5, :allow_update => true
+
   has_many :readings
   belongs_to :user
   belongs_to :brew_type
@@ -11,22 +13,36 @@ class Brewing < ActiveRecord::Base
 
 
   def estimate_bottled_on
-    hourly_rate_of_change = rate
-    change = (self.readings[0].specific_gravity - self.readings[1].specific_gravity) / ((self.readings[1].taken_on - self.readings[0].taken_on) / 60 / 60)
-
-    hour = 0
-    safety_valve = 0
-    while change > 0 or safety_valve > 720
-      hour += 1
-      change = change - hourly_rate_of_change
-      safety_valve += 1
+    if self.readings.count > 4
+      hourly_rate_of_change = get_rate
+      change = (self.readings[0].specific_gravity - self.readings[1].specific_gravity) / ((self.readings[1].taken_on - self.readings[0].taken_on) / 60 / 60)
+  
+      hour = 0
+      safety_valve = 0
+      while change > 0 or safety_valve > 720
+        hour += 1
+        change = change - hourly_rate_of_change
+        safety_valve += 1
+      end
+      self.ferment_started_on + hour.hours
     end
-    self.ferment_started_on + hour.hours
+  end
+  
+  def show_state
+    if state == "PRIMARY"
+      "in Primary Fermentation"
+    elsif state == "SECONDARY"
+      "in Secondary Fermentation"
+    elsif state == "READY"
+      "Ready for consumption!"
+    else
+      nil
+    end
   end
 
   private
   
-  def rate
+  def get_rate
     changes = calculate_changes
     average_rate = changes.inject{ |sum, el| sum + el }.to_f / changes.size
     average_rate / ((self.readings[1].taken_on - self.readings[0].taken_on) / 60 / 60)

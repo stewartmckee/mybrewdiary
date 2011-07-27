@@ -8,7 +8,12 @@ BrewingDiary::Application.routes.draw do
   resources :brew_types
 
   resources :readings
-  resources :brewings
+  resources :brewings do
+    get "set_bottled" => "brewings#set_bottled", :as => "set_bottled"
+    get "set_ready" => "brewings#set_ready", :as => "set_ready"
+    post :rate, :on => :member
+  end
+  
   devise_for :users
 
   # The priority is based upon order of creation:
