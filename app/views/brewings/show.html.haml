@@ -13,6 +13,10 @@
       .box-value
         = date_in_words(@brewing.bottled_on)
     .date-box
+      .box-title Estimated
+      .box-value
+        = date_in_words(@brewing.estimate_bottled_on)
+    .date-box
       .box-title Ready
       .box-value
         = date_in_words(@brewing.ready_on)

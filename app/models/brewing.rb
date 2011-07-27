@@ -10,22 +10,18 @@ class Brewing < ActiveRecord::Base
   scope :for, lambda {|user| where("user_id = ?", user.id)}
 
 
-  def bottled_on
-    if self.readings.count > 20
-      hourly_rate_of_change = rate
-      change = (self.readings[0].specific_gravity - self.readings[1].specific_gravity) / ((self.readings[1].taken_on - self.readings[0].taken_on) / 60 / 60)
-  
-      hour = 0
-      safety_valve = 0
-      while change > 0 or safety_valve > 720
-        hour += 1
-        change = change - hourly_rate_of_change
-        safety_valve += 1
-      end
-      self.ferment_started_on + hour.hours
-    else
-      super
+  def estimate_bottled_on
+    hourly_rate_of_change = rate
+    change = (self.readings[0].specific_gravity - self.readings[1].specific_gravity) / ((self.readings[1].taken_on - self.readings[0].taken_on) / 60 / 60)
+
+    hour = 0
+    safety_valve = 0
+    while change > 0 or safety_valve > 720
+      hour += 1
+      change = change - hourly_rate_of_change
+      safety_valve += 1
     end
+    self.ferment_started_on + hour.hours
   end
 
   private
