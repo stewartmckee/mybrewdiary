@@ -13,11 +13,11 @@ class ApplicationController < ActionController::Base
   READY = "READY"
 
   def get_tweets
-    unless Rails.cache.exist?('welcome#twitter')
-      # Initialize a Twitter search
-      Rails.cache.write('welcome#twitter', Twitter::Search.new.hashtag("homebrew").containing("beer").no_retweets.fetch, :expires_in => 30.minutes)
-    end 
-    @tweets = Rails.cache.read('welcome#twitter')  
+    #unless Rails.cache.exist?('welcome#twitter')
+    #  # Initialize a Twitter search
+    #  Rails.cache.write('welcome#twitter', Twitter.search("#homebrew beer").reject{|t| t.retweet?}, :expires_in => 30.minutes)
+    #end 
+    @tweets = []# Rails.cache.read('welcome#twitter')  
   end
 
   def friendly_date(date, options={})
